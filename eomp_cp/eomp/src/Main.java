@@ -8,8 +8,8 @@ public class Main {
         //List<Double> points_x = new ArrayList();
         int cnt = 0;
         while (x <= Math.PI) {
-            points.put(x, Sum2.sum(5, 1, x));
-            //points_x.add(Sum2.sum(5, 1, x));
+            points.put(x, Cp2.sum(5, 1, x));
+            //points_x.add(Cp2.sum(5, 1, x));
             x += step;
         }
 

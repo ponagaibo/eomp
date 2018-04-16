@@ -1,4 +1,4 @@
-public class Sum2 {
+public class Cp2 {
     static double a = 1000;
 
     public static double sum(int k, double t, double x) {

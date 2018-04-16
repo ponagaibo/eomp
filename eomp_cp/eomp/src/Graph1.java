@@ -6,16 +6,16 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.function.DoubleFunction;
+import java.util.function.Function;
 
-public class Graph extends Application {
-    static double step = 0.05;
-    static double scale = 65;
-    static int times = 400;
+public class Graph1 extends Application {
+    static double step = 0.005;
+    static double scale = 80;
+    static int times = 40;
     double width = 800;
-    double height = 700;
+    double height = 1000;
     static double x_center, y_center;
     public static void main(String[] args) {
         launch(args);
@@ -24,7 +24,7 @@ public class Graph extends Application {
     @Override
     public void start(Stage stage) {
         x_center = width / 4;
-        y_center = height / 10;
+        y_center = height / 1.1;
         Canvas canvas = new Canvas(width, height);
         Group root = new Group();
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -48,26 +48,28 @@ public class Graph extends Application {
         gc.strokeLine(x_center - 5, scale + y_center, x_center + Math.PI, scale + y_center);
         gc.setLineWidth(2);
 
+
         NavigableMap<Double, Double> points = new TreeMap<>();
         gc.setStroke(Color.DARKBLUE);
-        draw(gc, points, 1);
-
+        //draw(gc, points, 0.001);
+        System.out.println("u(x,0): " + Cp1.sum(100, 0, 0.05));
+/*
         gc.setStroke(Color.BLUEVIOLET);
         draw(gc, points, 2);
 
         gc.setStroke(Color.MEDIUMVIOLETRED);
-        draw(gc, points, 3);
+        draw(gc, points, 3);*/
 
         root.getChildren().add(canvas);
         stage.setScene(new Scene(root));
         stage.show();
     }
 
-    static void draw(GraphicsContext gc, NavigableMap<Double, Double> points, double t) {
-        double x = 0;
-        while (x < Math.PI) {
-            points.put(x, Sum2.sum(times, t, x));
-            x += step;
+    static void draw(GraphicsContext gc, NavigableMap<Double, Double> points, double x) {
+        double t = 0;
+        while (t < 1) {
+            points.put(t, Cp1.sum(times, t, x));
+            t += step;
         }
         double cnt = 0;
         double x1 = new Double(0);
