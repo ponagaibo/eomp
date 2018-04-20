@@ -7,7 +7,8 @@ import java.util.function.DoubleFunction;
 import java.util.function.Function;
 
 public class Cp1 {
-    private static double precision = 0.00001;
+    private static double precision = 0.0001;
+    static double l = 0.1;
 
     private static final DoubleFunction<Double> ddfun = (x) ->
             (0.02 * Math.sin(0.1 * x) / (Math.cos(0.1 * x) * Math.cos(0.1 * x) * Math.cos(0.1 * x)));
@@ -47,17 +48,17 @@ public class Cp1 {
     }
 
     public static double sum(int k, double t, double x) {
-        double coef = 4000 * Math.exp(-0.5 * x - 0.25 * t / 1000000);
+        double coef = -1600 * Math.exp(-0.5 * x - 0.25 * t / 1000000) / l;
         double sum = 0;
         List<Double> roots = new LinkedList<>();
         for (int i = 0; i < k; i++) {
             roots.add(findRoot(false, (10 * i + 4) * Math.PI, (10 * i + 5) * Math.PI));
         }
         for (int i = 0; i < k; i++) {
-            double cur = roots.get(i);
-            double tmp = cur * (Math.exp(0.05) - 1) / (cur * cur + 0.25) * Math.sin(cur * x) * Math.exp(cur * cur * t / 1000000);
+            double lam = roots.get(i);
+            double tmp = lam * Math.sin(lam * x) * Math.exp(-lam * lam * t / 1000000) / (4 * lam * lam + 1);
             sum += tmp;
         }
-        return 500+ coef * sum;
+        return coef * sum;
     }
 }
